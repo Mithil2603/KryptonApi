@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17
+    container_name: krypton-db
+    environment:
+      POSTGRES_USER: krypton
+      POSTGRES_PASSWORD: krypton_dev
+      POSTGRES_DB: krypton
+    ports:
+      - "5433:5432"
+    volumes:
+      - krypton-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  krypton-data:

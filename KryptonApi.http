@@ -1,0 +1,6 @@
+@KryptonApi_HostAddress = http://localhost:5191
+
+GET {{KryptonApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
