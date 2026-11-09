@@ -1,8 +1,9 @@
-using Dapper;
+using KryptonApi.Extensions;
 using KryptonApi.Features.Health.GetHealth;
-using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -12,8 +13,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddNpgsqlDataSource(connectionString);
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
 builder.Services.AddScoped<GetHealthHandler>();
+builder.Services.AddExerciseFeature();
 
 var app = builder.Build();
 
