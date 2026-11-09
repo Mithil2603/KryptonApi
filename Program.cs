@@ -1,5 +1,6 @@
 using KryptonApi.Extensions;
 using KryptonApi.Features.Health.GetHealth;
+using KryptonApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +19,15 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
 builder.Services.AddScoped<GetHealthHandler>();
 builder.Services.AddExerciseFeature();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseHttpsRedirection();
+app.UseCors("AllowAngularApp");
 app.MapControllers();
 
 // Configure the HTTP request pipeline.
@@ -29,7 +36,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
 
 var summaries = new[]
 {
