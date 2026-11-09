@@ -12,9 +12,9 @@ public class ListExerciseHandler
         _repository = repository;
     }
 
-    public async Task<IEnumerable<ListExerciseResponse>> GetExercisesAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<ListExerciseResponse>> GetExercisesAsync(ListExerciseRequest request, CancellationToken cancellationToken)
     {
-        var exercises = await _repository.GetExerciseAsync(cancellationToken);
+        var exercises = await _repository.GetExerciseAsync(request, cancellationToken);
 
         return exercises.Select(ExerciseMapper.MapToResponse);
     }

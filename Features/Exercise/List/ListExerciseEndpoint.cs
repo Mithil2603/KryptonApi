@@ -14,9 +14,9 @@ public class ListExerciseEndpoint : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetExercisesAsync(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetExercisesAsync([FromQuery] ListExerciseRequest request, CancellationToken cancellationToken)
     {
-        var response = await _exerciseHandler.GetExercisesAsync(cancellationToken);
+        var response = await _exerciseHandler.GetExercisesAsync(request, cancellationToken);
 
         return Ok(response);
     }

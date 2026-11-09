@@ -1,12 +1,13 @@
+using KryptonApi.Features.Exercise.Entities;
 using KryptonApi.Features.Exercise.List;
 
 namespace KryptonApi.Features.Exercise.Mappers;
 
 public static class ExerciseMapper
 {
-    public static Exercise MapToEntity(ListExerciseResponse response)
+    public static Exercises MapToEntity(ListExerciseResponse response)
     {
-        var exercise = new Exercise
+        var exercise = new Exercises
         {
             Id = response.Id,
             Name = response.Name,
@@ -22,7 +23,7 @@ public static class ExerciseMapper
         return exercise;
     }
 
-    public static ListExerciseResponse MapToResponse(Exercise exercise)
+    public static ListExerciseResponse MapToResponse(Exercises exercise)
     {
         var response = new ListExerciseResponse
         {
