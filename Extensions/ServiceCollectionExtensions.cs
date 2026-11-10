@@ -1,3 +1,5 @@
+using FluentValidation;
+using KryptonApi.Features.Exercise.Create.Validators;
 using KryptonApi.Features.Exercise.GetById;
 using KryptonApi.Features.Exercise.List;
 using KryptonApi.Features.Exercise.Repository;
@@ -12,6 +14,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IExerciseRepository, ExerciseRepository>();
         services.AddScoped<ListExerciseHandler>();
         services.AddScoped<GetExerciseByIdHandler>();
+
+        services.AddValidatorsFromAssemblyContaining<CreateExerciseRequestValidator>();
+
         return services;
     }
 }

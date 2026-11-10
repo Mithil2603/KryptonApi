@@ -1,4 +1,5 @@
 using Dapper;
+using KryptonApi.Features.Exercise.Create;
 using KryptonApi.Features.Exercise.Entities;
 using KryptonApi.Features.Exercise.GetById;
 using KryptonApi.Features.Exercise.List;
@@ -72,6 +73,25 @@ public class ExerciseRepository : IExerciseRepository
         var query = GetExerciseById.exercise;
 
         return await connection.QuerySingleOrDefaultAsync<Exercises>(
+            new CommandDefinition(query, request, cancellationToken: cancellationToken)
+        );
+    }
+
+    public async Task<Exercises> CreateExerciseAsync(CreateExerciseRequest request, CancellationToken cancellationToken)
+    {
+        await using var connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken: cancellationToken);
+
+        var query = CreateExerciseQuery.create;
+        var parameters = new DynamicParameters();
+
+        parameters.Add("Name", request.Name);
+        parameters.Add("Category", request.Category.ToString());
+        parameters.Add("MuscleGroup", request.MuscleGroup.ToString());
+        parameters.Add("Equipment", request.Equipment.ToString());
+        parameters.Add("Description", request.Description);
+        parameters.Add("IsActive", request.IsActive);
+
+        return await connection.QuerySingleAsync<Exercises>(
             new CommandDefinition(query, request, cancellationToken: cancellationToken)
         );
     }
