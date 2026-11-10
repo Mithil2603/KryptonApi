@@ -1,3 +1,4 @@
+using KryptonApi.Features.Exercise.GetById;
 using KryptonApi.Features.Exercise.List;
 using KryptonApi.Features.Exercise.Repository;
 using KryptonApi.Features.Exercise.Repository.Interface;
@@ -10,6 +11,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IExerciseRepository, ExerciseRepository>();
         services.AddScoped<ListExerciseHandler>();
+        services.AddScoped<GetExerciseByIdHandler>();
         return services;
     }
 }

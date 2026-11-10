@@ -14,7 +14,7 @@ public class ListExerciseHandler
 
     public async Task<IEnumerable<ListExerciseResponse>> GetExercisesAsync(ListExerciseRequest request, CancellationToken cancellationToken)
     {
-        var exercises = await _repository.GetExerciseAsync(request, cancellationToken);
+        var exercises = await _repository.GetExerciseListAsync(request, cancellationToken);
 
         return exercises.Select(ExerciseMapper.MapToResponse);
     }

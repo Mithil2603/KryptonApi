@@ -1,5 +1,6 @@
 using Dapper;
 using KryptonApi.Features.Exercise.Entities;
+using KryptonApi.Features.Exercise.GetById;
 using KryptonApi.Features.Exercise.List;
 using KryptonApi.Features.Exercise.Queries;
 using KryptonApi.Features.Exercise.Repository.Interface;
@@ -16,7 +17,7 @@ public class ExerciseRepository : IExerciseRepository
         _npgsqlDataSource = npgsqlDataSource;
     }
 
-    public async Task<IEnumerable<Exercises>> GetExerciseAsync(ListExerciseRequest request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Exercises>> GetExerciseListAsync(ListExerciseRequest request, CancellationToken cancellationToken)
     {
         await using var connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken: cancellationToken);
 
@@ -61,6 +62,17 @@ public class ExerciseRepository : IExerciseRepository
 
         return await connection.QueryAsync<Exercises>(
             new CommandDefinition(query, parameters, cancellationToken: cancellationToken)
+        );
+    }
+
+    public async Task<Exercises?> GetExerciseAsync(GetExerciseByIdRequest request, CancellationToken cancellationToken)
+    {
+        await using var connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken: cancellationToken);
+
+        var query = GetExerciseById.exercise;
+
+        return await connection.QuerySingleOrDefaultAsync<Exercises>(
+            new CommandDefinition(query, request, cancellationToken: cancellationToken)
         );
     }
 }

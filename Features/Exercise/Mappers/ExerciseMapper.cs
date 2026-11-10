@@ -1,4 +1,5 @@
 using KryptonApi.Features.Exercise.Entities;
+using KryptonApi.Features.Exercise.GetById;
 using KryptonApi.Features.Exercise.List;
 
 namespace KryptonApi.Features.Exercise.Mappers;
@@ -40,4 +41,21 @@ public static class ExerciseMapper
 
         return response;
     }
+
+    public static GetExerciseByIdResponse MapToGetByIdResponse(Exercises exercise)
+    {
+        return new GetExerciseByIdResponse
+        {
+            Id = exercise.Id,
+            Name = exercise.Name,
+            Category = exercise.Category,
+            MuscleGroup = exercise.MuscleGroup,
+            Equipment = exercise.Equipment,
+            Description = exercise.Description,
+            IsActive = exercise.IsActive,
+            CreatedAt = exercise.CreatedAt,
+            UpdatedAt = exercise.UpdatedAt
+        };
+    }
+
 }
